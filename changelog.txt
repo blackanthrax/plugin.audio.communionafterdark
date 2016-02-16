@@ -1,0 +1,2 @@
+- 1.0-
+	* load rss feed and list playable items
