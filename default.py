@@ -10,15 +10,15 @@ ADDON_ID="plugin.audio.communionafterdark"
 MEDIA_URL='special://home/addons/{0}/resources/media'.format(ADDON_ID)
 RSS_URI = "http://communionafterdark.com/rss.xml"
 
-_url = sys.argv[0]
-_handle = int(sys.argv[1])
+_url = sys.argv[0
+_]handle = int(sys.argv[1])
 
 xbmcplugin.setContent(_handle, 'audio')
 
 def get_sets_from_rss():
 	xbmc.log("CAD Plugin:: GET FEEDS")
 	feed = feedparser.parse(RSS_URI)
-	return feed["items"]
+	return sorted(feed["items"], key=lambda k: k["published_parsed"], reverse=True)
 
 def get_sets():
 	sets = []
@@ -31,6 +31,8 @@ def get_sets():
 def list_sets():
 	sets = get_sets()
 	listing = []
+
+
 
 	for (title, link) in sets:
 		list_item = xbmcgui.ListItem(label=title)
