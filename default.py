@@ -36,7 +36,7 @@ def list_sets():
 
 
 	for (title, link, date) in sets:
-		list_item = xbmcgui.ListItem(label=title, title=date)
+		list_item = xbmcgui.ListItem(label=title, title=date.strftime("%Y-%m-%d"))
 		list_item.setProperty('IsPlayable', 'true')
 		list_item.setProperty('fanart_image', MEDIA_URL + "/fanart.jpg")
 
