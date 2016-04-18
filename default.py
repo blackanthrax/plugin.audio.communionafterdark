@@ -10,22 +10,23 @@ ADDON_ID="plugin.audio.communionafterdark"
 MEDIA_URL='special://home/addons/{0}/resources/media'.format(ADDON_ID)
 RSS_URI = "http://communionafterdark.com/rss.xml"
 
-_url = sys.argv[0
-_]handle = int(sys.argv[1])
+_url = sys.argv[0]
+_handle = int(sys.argv[1])
 
 xbmcplugin.setContent(_handle, 'audio')
 
 def get_sets_from_rss():
 	xbmc.log("CAD Plugin:: GET FEEDS")
 	feed = feedparser.parse(RSS_URI)
-	return sorted(feed["items"], key=lambda k: k["published_parsed"], reverse=True)
+	return feed["items"]
 
 def get_sets():
 	sets = []
 	for (i, columns) in enumerate(get_sets_from_rss()):
 		link = columns.get("guid")
 		title = columns.get("title")
-		sets.append((title, link))
+		date = columns.get("published_parsed")
+		sets.append((title, link, date))
 	return sets
 
 def list_sets():
@@ -34,8 +35,8 @@ def list_sets():
 
 
 
-	for (title, link) in sets:
-		list_item = xbmcgui.ListItem(label=title)
+	for (title, link, date) in sets:
+		list_item = xbmcgui.ListItem(label=title, title=date)
 		list_item.setProperty('IsPlayable', 'true')
 		list_item.setProperty('fanart_image', MEDIA_URL + "/fanart.jpg")
 
@@ -46,7 +47,7 @@ def list_sets():
 		listing.append((url, list_item, is_folder))
 
 	xbmcplugin.addDirectoryItems(_handle, listing, len(listing))
-	xbmcplugin.addSortMethod(_handle, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+	xbmcplugin.addSortMethod(_handle, xbmcplugin.SORT_METHOD_TITLE)
 	xbmcplugin.endOfDirectory(_handle)
 
 def play_set(path):

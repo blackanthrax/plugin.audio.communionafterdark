@@ -1,2 +1,5 @@
 - 1.0-
 	* load rss feed and list playable items
+
+- 1.0.1-
+	* sort by date properly
